@@ -8,6 +8,7 @@ A prompt will ask for a url input by the user followed by how many pages to scra
 
 Paste a link to an HTML site as the starting seed.
 
+
 Ex: https://escapefromtarkov.fandom.com/wiki/Escape_from_Tarkov_Wiki
 
 

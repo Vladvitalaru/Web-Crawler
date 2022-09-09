@@ -15,8 +15,8 @@ import json
    along with the linked pages in a breadth first manner    
 '''
 class webCrawler:
-    def __init__(self, pages):
-        self.pages = pages          #The limit of pages to crawl
+    def __init__(self):
+        self.pages = 0          #The limit of pages to crawl
         self.count = 0              #How many pages we've crawled
         self.que = deque([])        #Que that allows us to crawl in a breadth first manner
         self.visited = set([])      #Set holding all visited links
@@ -26,10 +26,17 @@ class webCrawler:
     '''Method that obtains the initial seed and calls the main loop of program'''
     def getSeed(self):
         print("\nScript crawls URL's and downloads text files into 'Data' folder")
-        print("\nEnter a starting URL seed to begin scraping data:")
+        print("\nEnter a starting URL seed to begin scraping data: ")
         seed = str(input().strip())
         print()
         
+        self.pages = (input("How many pages?: "))
+        print()
+        while self.pages.isnumeric() is False or self.pages.startswith('0'):  #Make sure user input is an interger
+            print("\nPlease enter a positive interger")
+            self.pages = (input("How many pages?: "))
+        print()
+        self.pages = int(self.pages)
         parsed = parse.urlsplit(seed)
         if parsed.hostname is not None:                                                     #If the hostname is not None
             robots = parse.urljoin(parsed.scheme + '://' + parsed.hostname, "robots.txt")   #Parse URL and append robots.txt    
@@ -56,7 +63,7 @@ class webCrawler:
                             self.que.append(seed)
                             self.visited.add(seed) 
                             self.crawlingLoop()         #Begin main loop of crawling
-                            print("Finished crawling for data!")
+                            print("\nFinished crawling for data!")
                             return
         else:
             print("\nInvalid link!")
@@ -151,7 +158,7 @@ class webCrawler:
 
 def main():
     socket.setdefaulttimeout(2)  #Used to avoid hanging for too long on sites
-    crawler = webCrawler(5000)
+    crawler = webCrawler()
     crawler.getSeed()           #Start the program cycle by obtaining initial seed from user
     
 if __name__ == '__main__':
